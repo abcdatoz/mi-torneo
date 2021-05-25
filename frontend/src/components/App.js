@@ -15,7 +15,8 @@ import PrivateRoute from './common/PrivateRoute'
 
 
 import Home from './Home'
-import SweetHome from './SweetHome'
+import Torneo from './Torneo'
+import Equipo from './Equipo'
 
 
 const App = () => {
@@ -33,7 +34,8 @@ const App = () => {
                             <Route exact path="/register" component = {Register} />
                             <Route exact path="/login" component = {Login} />
 
-                            <PrivateRoute exact path="/sweet" component = {SweetHome} />
+                            <PrivateRoute exact path="/torneos" component = {Torneo} />
+                            <PrivateRoute exact path="/equipos" component = {Equipo} />
                              
                             
                         </Switch>

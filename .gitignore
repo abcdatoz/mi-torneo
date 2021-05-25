@@ -5,5 +5,5 @@ build/Release
 node_modules/
 
 #images
-noocs_images/
+images/
 

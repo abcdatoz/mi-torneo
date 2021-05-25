@@ -16,19 +16,7 @@ const Header = () => {
             <li className="nav-item">
                 <a className="dropdown-item" href="/#/">Home</a>
             </li>
-            <li className="nav-item">
-                <a className="dropdown-item" href="/#/cBanner">Banners</a>
-            </li>
-            <li className="nav-item">
-                <a className="dropdown-item" href="/#/cMunicipio">Municipio</a>
-            </li>
-            <li className="nav-item">
-                <a className="dropdown-item" href="/#/cEscuela">Escuela</a>
-            </li>
-            <li className="nav-item">
-                <a className="dropdown-item" href="/#/cCurso">Curso</a>
-            </li>
- 
+            
  
              <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -46,13 +34,10 @@ const Header = () => {
         <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
 
             <li className="nav-item">
-                <a className="dropdown-item" href="/#/sweet">sweet</a>
+                <a className="dropdown-item" href="/#/torneos">Torneos</a>
             </li>
             <li className="nav-item">
-                <a className="dropdown-item" href="#">opcion y</a>
-            </li>
-            <li className="nav-item">
-                <a className="dropdown-item" href="#">opcion z</a>
+                <a className="dropdown-item" href="/#/equipos">Equipos</a>
             </li>
        
  
@@ -70,6 +55,9 @@ const Header = () => {
     );
  
 
+
+
+    
     const guestLinks = (
         <ul className="navbar-nav ml-auto mt-6 mt-lg-0">
 
