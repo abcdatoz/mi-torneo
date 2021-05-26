@@ -17,6 +17,7 @@ import PrivateRoute from './common/PrivateRoute'
 import Home from './Home'
 import Torneo from './Torneo'
 import Equipo from './Equipo'
+import Juegos from './Juegos'
 
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
 
                             <PrivateRoute exact path="/torneos" component = {Torneo} />
                             <PrivateRoute exact path="/equipos" component = {Equipo} />
+                            <PrivateRoute exact path="/juegos" component = {Juegos} />
                              
                             
                         </Switch>

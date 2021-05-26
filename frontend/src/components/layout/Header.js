@@ -39,6 +39,9 @@ const Header = () => {
             <li className="nav-item">
                 <a className="dropdown-item" href="/#/equipos">Equipos</a>
             </li>
+            <li className="nav-item">
+                <a className="dropdown-item" href="/#/juegos">Juegos</a>
+            </li>
        
  
  

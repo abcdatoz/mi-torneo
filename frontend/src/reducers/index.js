@@ -8,11 +8,18 @@ import grupos from './GrupoReducer'
 import equipos from './EquipoReducer'
 import jugadores from './JugadorReducer'
 
+import jornadas from './JornadaReducer'
+import juegos from './JuegoReducer'
+import goles from './GolReducer'
+
 export default combineReducers({
     auth, 
     estados,
     torneos,
     grupos,
     equipos,
-    jugadores
+    jugadores,
+    jornadas,
+    juegos,
+    goles
 });
