@@ -454,8 +454,9 @@ const Equipo = () => {
                 <tbody>
 
                     <tr>
-                      <td>
-                        <input 
+                        <td></td>
+                        <td>
+                            <input 
                                 className="form-control"
                                 type="text"
                                 placeholder="Nombre del jugador"
@@ -465,13 +466,13 @@ const Equipo = () => {
                             />
                         </td>
                         <td>
-                            <select className="form-control"
-                                name="status"
-                                value={jugadorStatus}
-                                onChange={ e=> setJugadorStatus (e.target.value) } >
-                                <option value="Alta">Alta</option>                                
-                                <option value="Baja">Baja</option>                                        
-                            </select> 
+                                <select className="form-control"
+                                    name="status"
+                                    value={jugadorStatus}
+                                    onChange={ e=> setJugadorStatus (e.target.value) } >
+                                    <option value="Alta">Alta</option>                                
+                                    <option value="Baja">Baja</option>                                        
+                                </select> 
 
                         </td>
                         <td>

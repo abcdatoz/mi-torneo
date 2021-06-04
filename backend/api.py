@@ -175,6 +175,9 @@ class JornadaViewSet(viewsets.ModelViewSet):
         data = request.data 
 
         torneo = Torneo.objects.get(id=data['torneo'])
+
+        print('sa')
+        print(data['inicia'])
         
 
         jornada = Jornada.objects.create(
@@ -191,6 +194,15 @@ class JornadaViewSet(viewsets.ModelViewSet):
         jornada.save()
         serializer = JornadaSerializer(jornada)
         return Response(serializer.data)
+
+    def update(self, request, *args, **kargs):        
+        data = request.data        
+
+        instance = self.get_object()        
+        instance.status = data['status']
+        instance.save()
+        serializer = JornadaSerializer(instance)
+        return Response(serializer.data)     
 
 
 
@@ -246,6 +258,38 @@ class JuegoViewSet(viewsets.ModelViewSet):
         serializer = JuegoSerializer(juego)
         return Response(serializer.data)
 
+    def update(self, request, *args, **kargs):        
+        data = request.data        
+
+        instance = self.get_object()
+
+        puntosA = 0
+        puntosB = 0
+
+        if data['status'] == 'Finalizado':
+            if data['golesA'] == data['golesB']:
+                puntosA=1
+                puntosB=1
+            elif data['golesA'] > data['golesB']:
+                puntosA=3
+                puntosB=0
+            elif data['golesA'] < data['golesB']:
+                puntosA=0
+                puntosB=3
+        
+
+        
+        instance.golesA = data['golesA']    
+        instance.golesB = data['golesB']
+        instance.puntosA = puntosA
+        instance.puntosB =puntosB
+        instance.status = data['status']
+            
+
+        instance.save()
+        serializer = JuegoSerializer(instance)
+        return Response(serializer.data)        
+
 
 
 class GolViewSet(viewsets.ModelViewSet):
@@ -259,8 +303,8 @@ class GolViewSet(viewsets.ModelViewSet):
 
         torneo = Torneo.objects.get(id=data['torneo'])
         juego = Juego.objects.get(id=data['juego'])
-        equipo = Juego.objects.get(id=data['equipo'])
-        jugador = Equipo.objects.get(id=data['jugador'])
+        equipo = Equipo.objects.get(id=data['equipo'])
+        jugador = Jugador.objects.get(id=data['jugador'])
         
 
         gol = Gol.objects.create(
@@ -269,7 +313,7 @@ class GolViewSet(viewsets.ModelViewSet):
             equipo = equipo,
             jugador = jugador,
             goles = data['goles'],            
-            tarjetas_amarillas = data['tarjetas_amarillas'],     
+            tarjetas_amarillas = data['tarjeta_amarilla'],     
             tarjeta_roja = data['tarjeta_roja'],                             
             created_by = self.request.user            
         )

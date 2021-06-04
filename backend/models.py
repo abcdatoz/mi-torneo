@@ -77,7 +77,7 @@ class Jornada(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        ordering = ['nombre']
+        ordering = ['-nombre']
 
 
 class Juego(models.Model):

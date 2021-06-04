@@ -44,7 +44,7 @@ export const deleteGol = (id) => (dispatch, getState)=>{
     axios.delete(`/api/goles/${id}/`, tokenConfig(getState))
         .then( res => {
             dispatch({
-                type: DELETE_GRUPO,
+                type: DELETE_GOL,
                 payload: id
             });            
         })
