@@ -18,7 +18,7 @@ import Home from './Home'
 import Torneo from './Torneo'
 import Equipo from './Equipo'
 import Juego from './Juegos'
-
+import Rol from './Rol'
 
 const App = () => {
     return (
@@ -38,6 +38,7 @@ const App = () => {
                             <PrivateRoute exact path="/torneos" component = {Torneo} />
                             <PrivateRoute exact path="/equipos" component = {Equipo} />
                             <PrivateRoute exact path="/juegos" component = {Juego} />
+                            <PrivateRoute exact path="/rol" component = {Rol} />
                              
                             
                         </Switch>

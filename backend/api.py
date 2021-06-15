@@ -1,8 +1,8 @@
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 
-from backend.models import Estado, Torneo, Grupo, Equipo, Jugador
-from backend.serializers import EstadoSerializer, TorneoSerializer, GrupoSerializer, EquipoSerializer, JugadorSerializer
+from backend.models import Estado, Torneo, Grupo, Equipo, Jugador, Premio
+from backend.serializers import EstadoSerializer, TorneoSerializer, GrupoSerializer, EquipoSerializer, JugadorSerializer, PremioSerializer
 
 
 from backend.models import Jornada, Juego, Gol
@@ -12,7 +12,7 @@ from backend.serializers import JornadaSerializer, JuegoSerializer, GolSerialize
 
 class EstadoViewSet(viewsets.ModelViewSet):    
     queryset = Estado.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.AllowAny]
     serializer_class = EstadoSerializer
 
 class TorneoViewSet(viewsets.ModelViewSet):
@@ -176,9 +176,6 @@ class JornadaViewSet(viewsets.ModelViewSet):
 
         torneo = Torneo.objects.get(id=data['torneo'])
 
-        print('sa')
-        print(data['inicia'])
-        
 
         jornada = Jornada.objects.create(
             torneo = torneo,            
@@ -321,3 +318,9 @@ class GolViewSet(viewsets.ModelViewSet):
         gol.save()
         serializer = GolSerializer(gol)
         return Response(serializer.data)
+
+
+class PremioViewSet(viewsets.ModelViewSet):    
+    queryset = Premio.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = PremioSerializer   

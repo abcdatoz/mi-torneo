@@ -42,6 +42,10 @@ const Header = () => {
             <li className="nav-item">
                 <a className="dropdown-item" href="/#/juegos">Juegos</a>
             </li>
+
+            <li className="nav-item">
+                <a className="dropdown-item" href="/#/rol">Nuevo Rol</a>
+            </li>
        
  
  

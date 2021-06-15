@@ -39,7 +39,7 @@ export class Login extends Component {
         return (
             <div className="col-md-6 m-auto">
                 <div className="card card-body mt-5">
-                    <h3 className="text-center">Mi Torneo :: Entrar</h3>
+                    <h3 className="text-center">Mi Torneo </h3>
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label>Usuario</label>
@@ -75,7 +75,7 @@ export class Login extends Component {
                         <br/>
 
                             ¿Aún no tienes cuenta? <br/>
-                            <Link to="/register">Registrate</Link> y diviertete aprendiendo
+                            <Link to="/register">Registrate y administra tu torneo</Link> 
                         </p>
                     </form>
                 </div>

@@ -66,6 +66,7 @@ const Torneo = () => {
         }
 
         dispatch(addGrupo(grupo))
+        setNombreGrupo('')
         $('#MyGroups').modal('hide')
     }
 
@@ -141,6 +142,14 @@ const Torneo = () => {
         $('#MyConfirmation').modal('hide')        
     }
 
+    const nombreEstado = (id)=>{
+        let arr = estados.filter(x=>x.id == id)
+
+        if (arr.length > 0)
+            return arr[0].nombre
+        
+            return ' '
+    }
 
 
     return (
@@ -238,6 +247,7 @@ const Torneo = () => {
             </div>
         </div>
 
+                                         
         <table className="table table-striped">
             <thead>
                 <th>Imagen</th>
@@ -256,7 +266,7 @@ const Torneo = () => {
                     .map(item=>(
                         <tr key={item.id}>
                             <td><img src={item.imagen}  alt="imagen" width="120px" height="120px"/> </td>
-                            <td>{item.estado}</td>
+                            <td> { nombreEstado(item.estado) } </td>
                             <td>{item.localidad}</td>
                             <td>{item.nombre}</td>
                             <td>{item.status}</td>                             
@@ -278,7 +288,7 @@ const Torneo = () => {
                                             grupos
                                             .filter(x => x.torneo_owner === item.id)
                                             .map(grupo => (
-                                                <tr>                                                    
+                                                <tr key={grupo.id}>                                                    
                                                     <td>
                                                         <button  onClick={() => eliminarGrupo(grupo.id)} className="btn btn-outline-danger" >
                                                             <span className="fa fa-trash" aria-hidden="true"></span>

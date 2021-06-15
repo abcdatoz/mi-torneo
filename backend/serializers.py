@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from backend.models import Estado, Torneo, Grupo, Equipo, Jugador, Jornada, Juego,Gol
+from backend.models import Estado, Torneo, Grupo, Equipo, Jugador, Jornada, Juego,Gol, Premio
 
 class EstadoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,3 +41,8 @@ class GolSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gol
         fields = '__all__'        
+
+class PremioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Premio
+        fields = '__all__'                

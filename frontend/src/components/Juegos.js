@@ -81,8 +81,7 @@ const Juego = () => {
         dispatch(getJuegos())
         dispatch(getEquipos())
         dispatch(getGoles())
-        dispatch(getJugadores())
-        
+        dispatch(getJugadores())        
     },[])
 
 
@@ -199,7 +198,6 @@ const Juego = () => {
                 
         });
 
-        console.log(juegosjugados)
 
         if( juegosjugados.length > 0){
             alert ('Este partido ya fue jugado en la ' + juegosjugados[0].jornada)
@@ -641,7 +639,8 @@ const Juego = () => {
                                         value={equipoA}
                                         onChange={ e=> setEquipoA (e.target.value) } >
                                         <option value="">Seleccione...</option>                                
-                                        {equipos                                            
+                                        {equipos
+                                            .filter ( x => x.torneo == torneo)                                            
                                             .map((x) => (
                                         <option key={x.id} value={x.id}>
                                             {x.nombre}
@@ -657,7 +656,9 @@ const Juego = () => {
                                         value={equipoB}
                                         onChange={ e=> setEquipoB (e.target.value) } >
                                         <option value="">Seleccione...</option>                                
-                                        {equipos.map((x) => (
+                                        {equipos
+                                            .filter ( x => x.torneo == torneo)
+                                            .map((x) => (
                                         <option key={x.id} value={x.id}>
                                             {x.nombre}
                                         </option>
@@ -966,7 +967,7 @@ const Juego = () => {
                                     goles
                                     .filter(x => x.juego == idJuego && x.equipo == idTeamA)
                                     .map( (gol, ndx)=>(
-                                        <tr key={ndx}>                            
+                                        <tr key={gol.id}>                            
                                             <td>
 
                                                 {

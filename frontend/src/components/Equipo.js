@@ -378,7 +378,7 @@ const Equipo = () => {
                                 equipos
                                 .filter(x=> x.grupo === grupo.id)
                                 .map((equipo, indx)=>(
-                                    <tr key={grupo.id}>
+                                    <tr key={equipo.id}>
                                         <td> {indx + 1} </td>
                                         <td>{equipo.nombre}</td>
                                         <td>{equipo.status}</td>
@@ -484,9 +484,9 @@ const Equipo = () => {
                 {                    
                     jugadores
                     .filter(x => x.equipo === idEquipo)
-                    .map((player, indx) =>(
+                    .map((player, ndx) =>(
                         <tr key={player.id}>
-                            <td>{indx+1} </td>
+                            <td>{ndx+1} </td>
                             <td>{player.nombre} </td>
                             <td>{player.status} </td>
                             <td>
