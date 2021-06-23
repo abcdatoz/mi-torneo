@@ -332,8 +332,9 @@ const Rol = () => {
             return
         }
 
+        
 
-        let listaJornadas = jornadas.filter(x => x.status == 'Abierta')
+        let listaJornadas = jornadas.filter(x => x.status == 'Abierta' && x.torneo == torneo)
 
         if (listaJornadas.length == 0){
             alert('la jornada ya no esta abierta')
@@ -396,7 +397,8 @@ const Rol = () => {
 
 
             { 
-                jornadas.filter(x => x.status == 'Abierta' && x.torneo == torneo).length == 1 && juegos.filter(y => y.torneo == torneo && y.jornada == jornadas.filter(x => x.status == 'Abierta')[0].id) == 0
+                jornadas.filter(x => x.status == 'Abierta' && x.torneo == torneo).length == 1 
+                && juegos.filter(y => y.torneo == torneo && y.jornada == jornadas.filter(x => x.status == 'Abierta' && x.torneo == torneo)[0].id) == 0
                 ? (
                     <div>                  
         

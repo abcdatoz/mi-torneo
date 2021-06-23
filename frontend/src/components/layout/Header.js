@@ -14,7 +14,7 @@ const Header = () => {
         <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
 
             <li className="nav-item">
-                <a className="dropdown-item" href="/#/">Home</a>
+                <a className="dropdown-item" href="/#/">You Must see all </a>
             </li>
             
  
@@ -33,6 +33,7 @@ const Header = () => {
     const userLinks = (
         <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
 
+            
             <li className="nav-item">
                 <a className="dropdown-item" href="/#/torneos">Torneos</a>
             </li>
@@ -45,8 +46,8 @@ const Header = () => {
 
             <li className="nav-item">
                 <a className="dropdown-item" href="/#/rol">Nuevo Rol</a>
-            </li>
-       
+            </li>     
+            
  
  
              <li className="nav-item dropdown">

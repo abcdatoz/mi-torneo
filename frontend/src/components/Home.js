@@ -2,13 +2,20 @@ import React, { useState,useEffect}  from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {getEstados} from '../actions/EstadoActions'
 import {getTorneos} from '../actions/TorneoActions'
+
+import { getGrupos } from '../actions/GrupoActions'
+import { getEquipos } from '../actions/EquipoActions'
+import { getJugadores } from '../actions/JugadorActions'
+
 import { getJornadas } from '../actions/JornadaActions'
 import { getJuegos } from '../actions/JuegosActions'
-import { getEquipos } from '../actions/EquipoActions'
 import { getGoles } from '../actions/GolesActions'
-import { getJugadores } from '../actions/JugadorActions'
-import {Link} from 'react-router-dom'
 
+
+import TablaGeneral from './TablaGeneral'
+import TablaPorGrupo from './TablaPorGrupo'
+import Goleo from './Goleo'
+import VerJornadas from './VerJornadas'
 
 const Home = () => {
 
@@ -16,19 +23,26 @@ const Home = () => {
     //use states
     const [nombreTorneo, setNombreTorneo] = useState('')
     const [torneo, setTorneo] = useState('')
+    const [typ, setTyp] = useState('')
 
-    const [tablaGen, setTablaGen] = useState([])
+    const [filtroNombre, setFiltroNombre] = useState('')
+    const [filtroLocalidad, setFiltroLocalidad] = useState('')
 
 
     //use selectors
     const {isAuthenticated, user} = useSelector( store => store.auth);
     const estados = useSelector(state => state.estados.lista)
     const torneos = useSelector(state => state.torneos.lista)
-    const jornadas = useSelector(state => state.jornadas.lista)
-    const juegos = useSelector(state => state.juegos.lista)
+
+    const grupos = useSelector(state => state.grupos.lista)
     const equipos = useSelector(state => state.equipos.lista)
-    const goles = useSelector(state => state.goles.lista)
-    const jugadores = useSelector(state => state.jugadores.lista)
+
+    const juegos = useSelector(state => state.juegos.lista)
+    const goles =  useSelector(state => state.goles.lista)
+    
+
+
+
 
     //use dispatch
     const dispatch = useDispatch()
@@ -38,215 +52,128 @@ const Home = () => {
     useEffect( () => {
         dispatch(getEstados())
         dispatch(getTorneos())
+        
+        dispatch(getGrupos())
+        dispatch(getEquipos())
+
         dispatch(getJornadas())
         dispatch(getJuegos())
-        dispatch(getEquipos())
-        dispatch(getGoles())
+
         dispatch(getJugadores())        
+        dispatch(getGoles())        
+       
     },[])
 
 
 
-    const verTablaGeneral = (item) => {
-        setTorneo(item.id)
-        setNombreTorneo(item.nombre)
-
-
-        
-        let teams = equipos.filter(x=>x.torneo == item.id)
-        let arr = []
-        
-        teams.forEach(team => {
-            let puntos = 0
-            let golesAfavor = 0
-            let golesEnContra = 0
-            let jj = 0
-            let jg = 0
-            let jp = 0
-            let je = 0
-
-            
-
-            let games = juegos.filter(x=>x.equipoA == team.id)
-            games.forEach(game => {
-                
-                puntos = puntos + game.puntosA
-                golesAfavor = golesAfavor + game.golesA
-                golesEnContra = golesEnContra + game.golesB 
-                
-                                
-                jj++
-                if (game.golesA > game.golesB)
-                    jg++
-
-                if(game.golesA < game.golesB)
-                    jp++
-
-                if(game.golesA == game.golesB)
-                    je++
-                
-
-            });
-
-            games = juegos.filter(x=>x.equipoB == team.id)
-            games.forEach(game => {
-                puntos = puntos + game.puntosB
-                golesAfavor = golesAfavor + game.golesB
-                golesEnContra = golesEnContra + game.golesA 
-                
-                jj++
-                if (game.golesB > game.golesA)
-                    jg++
-
-                if(game.golesB < game.golesA)
-                    jp++
-
-                if(game.golesB == game.golesA)
-                    je++
-            });
-
-
-            let obj = {
-                id: team.id,
-                nombre: team.nombre,
-                puntos: puntos,
-                golesAfavor: golesAfavor,
-                golesEnContra: golesEnContra,
-                diferencia: golesAfavor - golesEnContra,
-                jj,
-                jg,
-                jp,
-                je
-            }
-
-            arr.push(obj)
-
-            
-        });
-
-        
-        arr.sort((a,b) => b.puntos - a.puntos)
-
- 
-
-        setTablaGen(arr)
+    const seeDetails = (torn, quever) => {
+        setTorneo(torn.id)
+        setNombreTorneo(torn.nombre)        
+        setTyp(quever)
     }
+
+
+     
+
+
+
+
    
     const listatorneos = (
-        <>
-        <h5>Ubica tu Torneo </h5>
+        <>        
     
         <table className="table table-striped">
             <thead>
                 <th width="10%"></th>
-                <th width="20%">Nombre del torneo</th>
-                <th width="20%">Lugar donde se juega</th>
-                <th width="10%">Ver</th>                
-                <th width="10%">status</th>
+                <th width="20%">                    
+                    <input 
+                            type="text"
+                            placeholder="filtrar x nombre de torneo"
+                            name="filtroNombre"
+                            value={filtroNombre}
+                            onChange={ e => setFiltroNombre(e.target.value)}
+                        />   
+                </th>
+                <th width="20%">                    
+                    <input 
+                            type="text"
+                            placeholder="filtrar x localidad donde se juega"
+                            name="filtroLocalidad"
+                            value={filtroLocalidad}
+                            onChange={ e => setFiltroLocalidad(e.target.value)}
+                        />   
+                    </th>               
                 
             </thead>     
-            <tbody>
-                {
-                    torneos                    
-                    .map(torneo=>(
-                        <tr key={torneo.id}>
-                            <td> <img src={torneo.imagen}  alt="imagen" width="100px" height="100px"/> </td>
-                            <td>{torneo.nombre}</td>
-                            <td> { estados.filter(x=>x.id == torneo.estado)[0].nombre } | {torneo.localidad}</td>                            
-                            <td>
-                                <button  onClick={() => { verTablaGeneral(torneo)}} className="btn btn-outline-success" >
-                                    tabla General
-                                </button>           
-                                <button  onClick={() => { verTablaGeneral(torneo)}} className="btn btn-outline-success" >
-                                    tabla General por Grupo
-                                </button>           
-                            </td>
-                            <td>{torneo.status}</td>
-                        </tr>
-                    ))
-                }
-                            
-            </tbody>
-        </table>
-    
-        </>
-    )
-
-     
-    
-
-
-
-
-
-    const tablaGeneral = (
-        <>        
-            <h5>{ nombreTorneo }</h5>
-            
-            <button  onClick={() => {setTorneo(''); setNombreTorneo('')}} className="btn btn-outline-success" >
-                regresar
-            </button> 
-           
-            
-            <table className="table table-striped">
-                <thead>
-                <th width="5%">#</th>
-                <th width="25%">Equipo</th>
-                <th width="5%">JJ</th>
-                <th width="5%">JG</th>
-                <th width="5%">JP</th>
-                <th width="5%">JE</th>                
-                <th width="5%"></th>                
-                <th width="5%">GF</th>
-                <th width="5%">GC</th>
-                <th width="5%">Dif</th>
-                <th width="5%"></th>                
-                <th width="5%">Puntos</th>                     
-                
-                </thead>
-
-                <tbody>
-                {
-                    tablaGen
-                    .map((item,ndx) => (
-                        <tr key={item.id}  >
-                            <td>{ndx + 1}</td>
-                            <td> {item.nombre}</td>
-                            <td>{item.jj} </td>
-                            <td>{item.jg} </td>
-                            <td>{item.jp} </td>
-                            <td>{item.je} </td>
-                            <td> </td>
-                            <td>{item.golesAfavor} </td>
-                            <td>{item.golesEnContra} </td>
-                            <td>{item.diferencia} </td>
-                            <td> </td>
-                            <td>{item.puntos} </td>                                                                                
-                        </tr>
-                    ))
-                }
-                </tbody>
             </table>
 
-        </>
+           
 
+
+        <div className="x-container">
+            {
+                torneos
+                    .filter (x => x.nombre.toUpperCase().includes(filtroNombre.toUpperCase()) 
+                               && x.localidad.toUpperCase().includes(filtroLocalidad.toUpperCase()) )                    
+                    .map( torneo => (
+
+                        <div key={torneo.id} className="x-card">
+                            <div className="x-box">
+                            <div className="x-content">
+                                <h2><img  src={torneo.imagen} width="100" height="100"/></h2>
+                                <h3>{torneo.nombre}</h3>
+                                <p>{torneo.localidad} | { estados.filter(x=>x.id == torneo.estado)[0].nombre }</p>
+                                <a href ="#" onClick={ () => seeDetails(torneo, 'tabla_general')}>Tabla General</a>
+                                <a href ="#" onClick={ () => seeDetails(torneo, 'tabla_por_grupos')}>Tabla por Grupos</a>
+                                <a href ="#" onClick={ () => seeDetails(torneo, 'goleo')}>Ver Goleo</a>
+                                <a href ="#" onClick={ () => seeDetails(torneo, 'ver_jornadas')}>Ver Jornadas</a>
+                                
+                            </div>
+                            </div>
+                        </div>                     
+
+                ))
+            }
+            
+        </div>
+
+
+
+    
+        </>
     )
 
-
-
-
+      
+    
 
     const userOption = (
         <>
-
             <div className="subheader">
-                <h2><span> user options</span></h2>
-            </div>
+                
+                <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
 
+                                
+                    <li className="nav-item">
+                        <a className="dropdown-item" href="/#/torneos">Torneos</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="dropdown-item" href="/#/equipos">Equipos</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="dropdown-item" href="/#/juegos">Juegos</a>
+                    </li>
 
-                      
+                    <li className="nav-item">
+                        <a className="dropdown-item" href="/#/rol">Nuevo Rol</a>
+                    </li>     
+
+                </ul>                        
+
+            </div>                      
          </>
     )
+
+
 
     return(
  
@@ -259,7 +186,35 @@ const Home = () => {
             ? userOption
             : torneo == ''
                 ? listatorneos
-                : tablaGeneral
+                : (
+                    <>
+                        <h5>{ nombreTorneo }</h5>
+            
+                        <button  onClick={() => {setTorneo(''); setNombreTorneo('')}} className="btn btn-outline-success" >
+                            regresar
+                        </button>            
+
+
+
+                        {(() => {
+
+                            switch(typ) {
+
+                                case "tabla_general":       return <TablaGeneral idTorneo={torneo} />;
+                                case "tabla_por_grupos":    return <TablaPorGrupo idTorneo={torneo} />;
+                                case "goleo":               return <Goleo idTorneo={torneo} />;
+                                case "ver_jornadas":        return <VerJornadas idTorneo={torneo} />;
+                                
+
+                                default:      return <h1>No tournament selected</h1>
+                            }
+
+
+                        })()}    
+
+                    </>
+                )                                       
+                
         } 
 
 

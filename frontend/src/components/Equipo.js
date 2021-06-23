@@ -5,6 +5,8 @@ import {getGrupos} from '../actions/GrupoActions'
 import {getEquipos, addEquipo, editEquipo, deleteEquipo} from '../actions/EquipoActions'
 import {getJugadores, addJugador,editJugador,deleteJugador} from '../actions/JugadorActions'
 
+import {getJuegos} from '../actions/JuegosActions'
+
 
 const Equipo = () => {
 
@@ -41,6 +43,7 @@ const Equipo = () => {
     const grupos = useSelector(state => state.grupos.lista)
     const equipos = useSelector(state => state.equipos.lista)
     const jugadores = useSelector(state => state.jugadores.lista)
+    const juegos = useSelector(state => state.juegos.lista)
 
     //useDispatch
     const dispatch = useDispatch()
@@ -52,6 +55,7 @@ const Equipo = () => {
         dispatch(getGrupos())
         dispatch(getEquipos())
         dispatch(getJugadores())                
+        dispatch(getJuegos())                
     },[])
 
     const agregar = () => {
@@ -153,12 +157,26 @@ const Equipo = () => {
 
     const eliminar = (item) => {
 
+
+        let listaJuegos = juegos.filter(x=> x.equipoA === item.id || x.equipoB === item.id)
+
+        if (listaJuegos.length > 0){
+            alert('No se puede eliminar este equipo porque tiene juegos rolados')
+            return
+        }
+
+
+
+
         let lista = jugadores.filter(x=> x.equipo === item.id)
 
         if (lista.length > 0){
             alert('No se puede eliminar este equipo porque tiene jugadores registrados')
             return
         }
+
+
+
 
 
         setId(item.id)                

@@ -6,7 +6,7 @@ import { getJornadas, addJornada,editJornada, deleteJornada } from '../actions/J
 import { getJuegos, addJuego, deleteJuego, editJuego } from '../actions/JuegosActions'
 import { getEquipos } from '../actions/EquipoActions'
 import { getGoles,addGol,deleteGol } from '../actions/GolesActions'
-import { getJugadores } from '../actions/JugadorActions'
+import { getJugadores, addJugador } from '../actions/JugadorActions'
 
 
 const Juego = () => {
@@ -48,6 +48,12 @@ const Juego = () => {
     const [golB, setGolB] = useState(0)
     const [amarillaB, setAmarillaB] = useState(0)
     const [rojaB, setRojaB] = useState(0)
+
+    //Alta de jugadores
+    const [equipoAlta, setEquipoAlta] = useState('')
+    const [nombreAlta, setNombreAlta] = useState('')
+    
+    
 
     const [listaHoras, setListaHoras] = useState([        
         {hora: '07'}, {hora: '08'}, {hora: '09'}, {hora: '10'}, {hora: '11'}, {hora: '12'},
@@ -352,8 +358,6 @@ const Juego = () => {
         
     }
 
-
-
     const eliminarGol = (id) => {
         dispatch(deleteGol(id))
     }
@@ -417,6 +421,30 @@ const Juego = () => {
 
     }
 
+
+    const altaJugador = (equipo) => {        
+        setEquipoAlta(equipo)
+        $('#MyModalAddPlayer').modal('show')
+    }
+
+    
+
+    const guardarAltaJugador = () => {
+        let data = {
+            nombre : nombreAlta,
+            status: 'Alta', 
+            torneo,
+            equipo: equipoAlta           
+        }
+
+        
+        dispatch(addJugador(data))
+        setNombreAlta('')
+        $('#MyModalAddPlayer').modal('hide')
+
+    }
+
+
     const listatorneos = (
         <>
         <h5>Mis Torneos </h5>
@@ -454,9 +482,7 @@ const Juego = () => {
     
         </>
     )
-
-
-            
+         
 
 
     const listaJornadas = (
@@ -523,7 +549,7 @@ const Juego = () => {
                                     type="date"                                     
                                     name="inicia"
                                     value={inicia}
-                                    min="2021-01-01" 
+                                    min="2020-01-01" 
                                     max="2025-12-31" 
                                     onChange = { e => setInicia(e.target.value)  }                                    
                                     />
@@ -534,7 +560,7 @@ const Juego = () => {
                                     type="date"                                     
                                     name="termina"
                                     value={termina}
-                                    min="2021-01-01" 
+                                    min="2020-01-01" 
                                     max="2025-12-31" 
                                     onChange = { e => setTermina(e.target.value)  }                                    
                                     />
@@ -593,7 +619,7 @@ const Juego = () => {
                                         type="date"                                     
                                         name="fecha"
                                         value={fecha}
-                                        min="2021-01-01" 
+                                        min="2020-01-01" 
                                         max="2025-12-31" 
                                         onChange = { e => setFecha(e.target.value)  }                                    
                                     />
@@ -849,8 +875,6 @@ const Juego = () => {
     )
 
 
-
-
     const detalles = (
         <>
             
@@ -860,7 +884,25 @@ const Juego = () => {
             <button  onClick={() => {setIdJuego('');  setIdTeamA('');  setIdTeamB('')}} className="btn btn-outline-success" >
                 regresar
             </button> 
-            
+
+
+            {
+                    statusJuego == 'Finalizado'
+                        ? null
+                        : (
+                            <>
+                                <button  onClick={() => eliminarJuego()} className="btn btn-outline-danger" >
+                                    Eliminar Juego
+                                </button>                                                                        
+                                <button  onClick={() => finalizarJuego()} className="btn btn-outline-success" >
+                                        Finalizar Partido
+                                    </button>                                                                        
+                            </>
+
+                        )
+                }
+
+            <br/>
 
             <div className="container">
                 <div className="row">
@@ -869,11 +911,12 @@ const Juego = () => {
                         <h4> 
                             { sumagoles (goles.filter(x => x.juego == idJuego && x.equipo == idTeamA))}                        
                         </h4>
-                        <br/>
 
+                        
+                        
                         <table>
                             <thead>                
-                                <th width="10%"> </th>
+                                <th width="5%"> </th>
                                 <th width="20%">Jugador</th>
                                 <th width="10%">Goles</th>                
                                 <th width="10%">T-Amarillas</th>
@@ -888,7 +931,17 @@ const Juego = () => {
                                     : (
 
                                         <tr>
-                                            <td></td>
+                                            <td>
+
+                                               {   
+                                                statusJuego == 'Finalizado'
+                                                    ? null
+                                                    : 
+                                                        <button  onClick={() => altaJugador(idTeamA)} className="btn btn-outline-success" >
+                                                            + 
+                                                        </button>                                                                        
+                                                }
+                                            </td>
                                             <td>
                                                 <select 
                                                     className="form-control"
@@ -1010,10 +1063,13 @@ const Juego = () => {
                         <h4> 
                             { sumagoles (goles.filter(x => x.juego == idJuego && x.equipo == idTeamB))}                        
                         </h4>
-                        <br/>
+                        
+                        
+
+                                                                                     
                         <table>
                             <thead>                
-                                <th width="10%"> </th>
+                                <th width="5%"> </th>
                                 <th width="20%">Jugador</th>
                                 <th width="10%">Goles</th>                
                                 <th width="10%">T-Amarillas</th>
@@ -1028,7 +1084,16 @@ const Juego = () => {
                                     : (
 
                                         <tr>
-                                            <td></td>
+                                            <td>
+                                                {   
+                                                    statusJuego == 'Finalizado'
+                                                        ? null
+                                                        : 
+                                                            <button  onClick={() => altaJugador(idTeamB)} className="btn btn-outline-success" >
+                                                                +
+                                                            </button>           
+                                                }
+                                            </td>
                                             <td>
                                                 <select 
                                                     className="form-control"
@@ -1140,28 +1205,7 @@ const Juego = () => {
                 </div>
 
 
-                {
-                    statusJuego == 'Finalizado'
-                        ? null
-                        : (
-
-                            <div className="row top-3rem">
-                                <div className="col-4">
-                                    <button  onClick={() => eliminarJuego()} className="btn btn-outline-danger" >
-                                        Eliminar Juego
-                                    </button>                                                                        
-                                </div>
-                                <div className="col-4">
-                                    <button  onClick={() => finalizarJuego()} className="btn btn-outline-success" >
-                                        Finalizar Partido
-                                    </button>                                                                        
-                                </div>
-                                <div className="col-4"> </div>
-                                
-                            </div>
-
-                        )
-                }
+                
 
                 
             </div>
@@ -1211,6 +1255,43 @@ const Juego = () => {
             </div>
 
     
+
+
+            <div className="modal fade" id="MyModalAddPlayer" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">            
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel">Registrar Jugador en el Equipo</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        
+                    <form>
+                        <input 
+                            type="text"
+                            placeholder="Nombre completo"
+                            name="nombreAlta"
+                            value={nombreAlta}
+                            onChange={ e => setNombreAlta (e.target.value)}
+                        />   
+                
+                    </form>
+
+
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-success" onClick={ () => { guardarAltaJugador () }}>Registrar Alta</button>
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Salir</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
         </>
     )
 
