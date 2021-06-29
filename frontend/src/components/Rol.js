@@ -120,7 +120,7 @@ const Rol = () => {
 
         
         let ids = equipos
-            .filter(x =>  x.torneo == torneo)  
+            .filter(x =>  x.torneo == torneo && x.status == 'alta')  
             .map(x=> x.id)        
         let nuevos = []
         let excluidos = []
@@ -130,7 +130,9 @@ const Rol = () => {
         cargarJuegosJugados()
 
 
-        let equiposTorneo  = equipos.filter (x => x.torneo == torneo)
+        let equiposTorneo  = equipos.filter (x => x.torneo == torneo && x.status == 'alta')
+
+        console.log (equiposTorneo)
   
   
         for(let i=0; i < equiposTorneo.length; i++){
@@ -158,7 +160,6 @@ const Rol = () => {
             })
             
             excluidos.push(pendientes[j])
-                      
             
           }
         }

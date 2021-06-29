@@ -133,6 +133,17 @@ const Equipo = () => {
             alert('No ha capturado el nombre del equipo')
             return
         }
+        let arr = []
+        if (mode == 'new'){
+            arr = equipos.filter(x=>x.torneo == torneo && x.nombre.toUpperCase() == nombre.toUpperCase())
+        }else{
+            arr = equipos.filter(x=>x.torneo == torneo && x.nombre.toUpperCase() == nombre.toUpperCase() && x.id != id)
+        }
+
+        if (arr.length > 0){
+            alert('ya hay un equipo en este torneo con ese nombre')
+            return
+        }
  
         let data = {
             torneo,

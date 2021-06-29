@@ -37,7 +37,7 @@ const TablaPorGrupo = (props) => {
 
                 
 
-                let games = juegos.filter(x=>x.equipoA == team.id)
+                let games = juegos.filter(x=>x.equipoA == team.id && x.status == 'Finalizado')
                 games.forEach(game => {
                     
                     puntos = puntos + game.puntosA
@@ -58,7 +58,7 @@ const TablaPorGrupo = (props) => {
 
                 });
 
-                games = juegos.filter(x=>x.equipoB == team.id)
+                games = juegos.filter(x=>x.equipoB == team.id && x.status == 'Finalizado')
                 games.forEach(game => {
                     puntos = puntos + game.puntosB
                     golesAfavor = golesAfavor + game.golesB
@@ -134,11 +134,12 @@ const TablaPorGrupo = (props) => {
                 <th width="5%">JP</th>
                 <th width="5%">JE</th>                
                 <th width="5%"></th>                
+                <th width="5%">Puntos</th>                     
+                <th width="5%"></th>                
                 <th width="5%">GF</th>
                 <th width="5%">GC</th>
                 <th width="5%">Dif</th>
-                <th width="5%"></th>                
-                <th width="5%">Puntos</th>                     
+                
                 
                 </thead>
 
@@ -155,11 +156,12 @@ const TablaPorGrupo = (props) => {
                             <td>{subitem.jp} </td>
                             <td>{subitem.je} </td>
                             <td> </td>
+                            <td>{subitem.puntos} </td>                                                                                
+                            <td> </td>
                             <td>{subitem.golesAfavor} </td>
                             <td>{subitem.golesEnContra} </td>
                             <td>{subitem.diferencia} </td>
-                            <td> </td>
-                            <td>{subitem.puntos} </td>                                                                                
+                            
                         </tr>
                     ))
                 }

@@ -93,6 +93,19 @@ const Torneo = () => {
             return
         }
 
+
+        if (mode == 'new') {            
+
+            let arr = torneos.filter(x=>x.user_owner == auth.user.id && x.nombre.toUpperCase() == nombre.toUpperCase()) 
+
+            if (arr.length > 0){
+                alert('Ya tienes registrado otro torneo con ese mismo nombre')
+                return
+            }
+        }     
+
+
+
         let formdata = new FormData()
 
         formdata.append('localidad', localidad)
@@ -109,9 +122,7 @@ const Torneo = () => {
         
         formdata.append('user', auth.user.id)
 
-        if (mode == 'new')
-
-            
+        if (mode == 'new')           
             
             dispatch(addTorneo(formdata))       
         
@@ -305,9 +316,7 @@ const Torneo = () => {
                             </td>                             
                             
                             <td>                                
-                                <button  onClick={() => editar(item)} className="btn btn-default btn-lg" >
-                                    <span className="fa fa-edit" aria-hidden="true"></span>
-                                </button>
+                                
                             
                                 <button  onClick={() => eliminar(item)} className="btn btn-default btn-lg" >
                                     <span className="fa fa-trash" aria-hidden="true"></span>

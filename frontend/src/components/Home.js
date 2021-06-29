@@ -11,11 +11,16 @@ import { getJornadas } from '../actions/JornadaActions'
 import { getJuegos } from '../actions/JuegosActions'
 import { getGoles } from '../actions/GolesActions'
 
+import { getRegion } from '../actions/RegionAction'
+import { getVisitas, addVisita } from '../actions/VisitaActions'
+
 
 import TablaGeneral from './TablaGeneral'
 import TablaPorGrupo from './TablaPorGrupo'
 import Goleo from './Goleo'
 import VerJornadas from './VerJornadas'
+
+
 
 const Home = () => {
 
@@ -24,6 +29,7 @@ const Home = () => {
     const [nombreTorneo, setNombreTorneo] = useState('')
     const [torneo, setTorneo] = useState('')
     const [typ, setTyp] = useState('')
+    
 
     const [filtroNombre, setFiltroNombre] = useState('')
     const [filtroLocalidad, setFiltroLocalidad] = useState('')
@@ -37,9 +43,12 @@ const Home = () => {
     const grupos = useSelector(state => state.grupos.lista)
     const equipos = useSelector(state => state.equipos.lista)
 
+    const jornadas = useSelector(state => state.jornadas.lista)
     const juegos = useSelector(state => state.juegos.lista)
     const goles =  useSelector(state => state.goles.lista)
     
+    const datosRegion =  useSelector(state => state.datosRegion.lista)
+    const visitas =  useSelector(state => state.visitas.lista)
 
 
 
@@ -61,6 +70,9 @@ const Home = () => {
 
         dispatch(getJugadores())        
         dispatch(getGoles())        
+
+        dispatch(getRegion())        
+        dispatch(getVisitas())       
        
     },[])
 
@@ -70,18 +82,42 @@ const Home = () => {
         setTorneo(torn.id)
         setNombreTorneo(torn.nombre)        
         setTyp(quever)
+        dispatch(addVisita({ip:datosRegion.ip, city: datosRegion.city, region: datosRegion.region, torneo: torn.nombre + ' ' + torn.localidad }))
     }
 
 
      
+    const numEquipos = (torn) => {
+
+        let arr = equipos.filter(x => x.torneo === torn && x.status == 'alta')
+        return arr.length
+
+    }
+
+    const numJornadas = (torn) => {
+        let arr = jornadas.filter(x => x.torneo === torn)
+        return arr.length
+    }
+
+    const numGoles = (torn) => {
+        let arr = juegos.filter(x => x.torneo === torn)
+        
+        let suma = 0
+        arr.forEach(element => {
+            suma = suma + element.golesA + element.golesB
+        });
+        
+        return suma
+    }
 
 
 
-
+     
    
     const listatorneos = (
         <>        
     
+        {} {datosRegion.city} {datosRegion.region}
         <table className="table table-striped">
             <thead>
                 <th width="10%"></th>
@@ -122,11 +158,18 @@ const Home = () => {
                             <div className="x-content">
                                 <h2><img  src={torneo.imagen} width="100" height="100"/></h2>
                                 <h3>{torneo.nombre}</h3>
-                                <p>{torneo.localidad} | { estados.filter(x=>x.id == torneo.estado)[0].nombre }</p>
-                                <a href ="#" onClick={ () => seeDetails(torneo, 'tabla_general')}>Tabla General</a>
-                                <a href ="#" onClick={ () => seeDetails(torneo, 'tabla_por_grupos')}>Tabla por Grupos</a>
-                                <a href ="#" onClick={ () => seeDetails(torneo, 'goleo')}>Ver Goleo</a>
-                                <a href ="#" onClick={ () => seeDetails(torneo, 'ver_jornadas')}>Ver Jornadas</a>
+                                <p>
+                                    {torneo.localidad} | { estados.filter(x=>x.id == torneo.estado)[0].nombre }
+                                    <br />
+                                    {numEquipos(torneo.id)} Equipos 
+                                    <br />
+                                    {numJornadas(torneo.id)} Jornadas
+                                    <br />
+                                    {numGoles(torneo.id)} Goles
+                                </p>
+                                
+                                
+                                <a href ="#" onClick={ () => seeDetails(torneo, 'tabla_general')}> Ver Estadísticas </a>
                                 
                             </div>
                             </div>
@@ -190,10 +233,28 @@ const Home = () => {
                     <>
                         <h5>{ nombreTorneo }</h5>
             
+                        
+
+                        <button  onClick={() => { setTyp('tabla_general') }} className="btn btn-outline-primary" >
+                            Tabla General
+                        </button>            
+                        <button  onClick={() => { setTyp('tabla_por_grupos') }} className="btn btn-outline-primary" >
+                            Tabla por Grupos
+                        </button>            
+                        <button  onClick={() => { setTyp('goleo') }} className="btn btn-outline-primary" >
+                            Goleo
+                        </button>            
+
+                        <button  onClick={() => { setTyp('ver_jornadas') }} className="btn btn-outline-primary" >
+                            Jornadas
+                        </button>            
+
+                        <button  className="btn btn-outline-default" >
+                             
+                        </button>   
                         <button  onClick={() => {setTorneo(''); setNombreTorneo('')}} className="btn btn-outline-success" >
                             regresar
                         </button>            
-
 
 
                         {(() => {

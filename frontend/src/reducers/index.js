@@ -1,6 +1,8 @@
 import {combineReducers} from 'redux'
 
 import auth from './auth'
+import datosRegion from './RegionReducer'
+import visitas from './VisitaReducer'
 
 import estados from './EstadoReducer'
 import torneos from './TorneoReducer'
@@ -14,6 +16,8 @@ import goles from './GolReducer'
 
 export default combineReducers({
     auth, 
+    datosRegion,
+    visitas,
     estados,
     torneos,
     grupos,

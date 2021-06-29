@@ -29,7 +29,7 @@ const TablaGeneral = (props) => {
 
             
 
-            let games = juegos.filter(x=>x.equipoA == team.id)
+            let games = juegos.filter(x=>x.equipoA == team.id && x.status == 'Finalizado')
             games.forEach(game => {
                 
                 puntos = puntos + game.puntosA
@@ -50,7 +50,7 @@ const TablaGeneral = (props) => {
 
             });
 
-            games = juegos.filter(x=>x.equipoB == team.id)
+            games = juegos.filter(x=>x.equipoB == team.id && x.status == 'Finalizado')
             games.forEach(game => {
                 puntos = puntos + game.puntosB
                 golesAfavor = golesAfavor + game.golesB
@@ -111,11 +111,12 @@ const TablaGeneral = (props) => {
                 <th width="5%">JP</th>
                 <th width="5%">JE</th>                
                 <th width="5%"></th>                
+                <th width="5%">Puntos</th>                     
+                <th width="5%"></th>                
                 <th width="5%">GF</th>
                 <th width="5%">GC</th>
                 <th width="5%">Dif</th>
-                <th width="5%"></th>                
-                <th width="5%">Puntos</th>                     
+                
                 
                 </thead>
 
@@ -131,11 +132,12 @@ const TablaGeneral = (props) => {
                             <td>{item.jp} </td>
                             <td>{item.je} </td>
                             <td> </td>
+                            <td>{item.puntos} </td>                                                                                
+                            <td> </td>
                             <td>{item.golesAfavor} </td>
                             <td>{item.golesEnContra} </td>
                             <td>{item.diferencia} </td>
-                            <td> </td>
-                            <td>{item.puntos} </td>                                                                                
+                            
                         </tr>
                     ))
                 }

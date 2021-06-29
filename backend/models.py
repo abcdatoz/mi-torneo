@@ -133,3 +133,13 @@ class Premio(models.Model):
      nombre = models.CharField(max_length=100)
      cantidad = models.IntegerField()
 
+class Visita(models.Model):
+     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+     ip = models.CharField(max_length=100)
+     city = models.CharField(max_length=100)
+     region = models.CharField(max_length=100)
+     torneo = models.CharField(max_length=100,default='')
+     created_at = models.DateTimeField(auto_now_add=True)    
+
+     class Meta:
+        ordering = ['-created_at']

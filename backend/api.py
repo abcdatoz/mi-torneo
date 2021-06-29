@@ -5,8 +5,8 @@ from backend.models import Estado, Torneo, Grupo, Equipo, Jugador, Premio
 from backend.serializers import EstadoSerializer, TorneoSerializer, GrupoSerializer, EquipoSerializer, JugadorSerializer, PremioSerializer
 
 
-from backend.models import Jornada, Juego, Gol
-from backend.serializers import JornadaSerializer, JuegoSerializer, GolSerializer
+from backend.models import Jornada, Juego, Gol, Visita
+from backend.serializers import JornadaSerializer, JuegoSerializer, GolSerializer, VisitaSerializer
 
 
 
@@ -324,3 +324,8 @@ class PremioViewSet(viewsets.ModelViewSet):
     queryset = Premio.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = PremioSerializer   
+
+class VisitaViewSet(viewsets.ModelViewSet):    
+    queryset = Visita.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = VisitaSerializer
