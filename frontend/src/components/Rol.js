@@ -132,7 +132,7 @@ const Rol = () => {
 
         let equiposTorneo  = equipos.filter (x => x.torneo == torneo && x.status == 'alta')
 
-        console.log (equiposTorneo)
+       
   
   
         for(let i=0; i < equiposTorneo.length; i++){

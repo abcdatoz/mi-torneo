@@ -18,7 +18,7 @@ const VerJornadas = (props) => {
     
     const generarDatos = () =>{
 
-        let journeys = jornadas.filter(x=>x.torneo == props.idTorneo)        
+        let journeys = jornadas.filter(x=>x.torneo == props.idTorneo && x.status == 'Cerrada')        
         let teams = equipos.filter(x=>x.torneo == props.idTorneo)
 
         let grandMother = []
@@ -81,47 +81,50 @@ const VerJornadas = (props) => {
                 />   
         </div>
 
-        {
-            listaJornadas
-            .map((item, ndx) => (
 
-                <table className="table table-striped" key={ndx}>
+        <table className="table table-striped" >
                 <thead>
-                <th width="10%">{item.jornada}</th>
-                <th width="10%"></th>
-                <th width="25%"></th>
-                <th width="5%"></th>                
-                <th width="5%"></th>
-                <th width="25%"></th>                
-                <th width="10%"></th>
-                
-                
+                    <tr>
+                        <th width="10%"></th>
+                        <th width="10%"></th>
+                        <th width="25%"></th>
+                        <th width="5%"></th>                
+                        <th width="5%"></th>
+                        <th width="25%"></th>                
+                        
+                    </tr>
                 </thead>
 
-                <tbody>
-                {
-                    listaJornadas[ndx].juego
-                    .filter (x => x.equipoA.toUpperCase().includes(filtro.toUpperCase()) 
-                               || x.equipoB.toUpperCase().includes(filtro.toUpperCase()))                    
-                    .map((subitem,indx) => (
-                        <tr key={subitem.id}  >
-                            <td> </td>
-                            <td>{indx + 1}</td>
-                            <td>{subitem.equipoA}</td>
-                            <td>{subitem.golesA} </td>                            
-                            <td>{subitem.golesB} </td>
-                            <td>{subitem.equipoB} </td>                            
-                            <td>{subitem.status} </td>
-                        </tr>
-                    ))
-                }
-                </tbody>
+        <tbody>
+
+            {
+                listaJornadas
+                .map((item, ndx) => 
+
+                
+                    
+                        listaJornadas[ndx].juego
+                        .filter (x => x.equipoA.toUpperCase().includes(filtro.toUpperCase()) 
+                                || x.equipoB.toUpperCase().includes(filtro.toUpperCase()))                    
+                        .map((subitem,indx) => (
+                            <tr key={subitem.id}  >
+                                <td> {item.jornada}  </td>
+                                <td>{indx + 1}</td>
+                                <td>{subitem.equipoA}</td>
+                                <td>{subitem.golesA} </td>                            
+                                <td>{subitem.golesB} </td>
+                                <td>{subitem.equipoB} </td>                            
+                                
+                            </tr>
+                        ))
+                    
+                
+
+                )
+            }
+
+            </tbody>
             </table>
-
-            ))
-        }
-
-        
 
 
 

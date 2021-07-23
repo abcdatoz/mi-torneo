@@ -75,10 +75,16 @@ const TablaPorGrupo = (props) => {
                         je++
                 });
 
+                let estatus = ''
+
+                if (team.status == 'baja'){
+                    estatus = ' <<BAJA>>'
+                }
+    
 
                 let obj = {
                     id: team.id,
-                    nombre: team.nombre,
+                    nombre: team.nombre + estatus,
                     puntos: puntos,
                     golesAfavor: golesAfavor,
                     golesEnContra: golesEnContra,
@@ -95,7 +101,41 @@ const TablaPorGrupo = (props) => {
             });
 
         
-            arr.sort((a,b) => b.puntos - a.puntos) 
+            
+            //arr.sort((a,b) => b.puntos - a.puntos) 
+
+            arr.sort((a,b) => {
+                        
+                if (b.puntos > a.puntos) {
+                    return 1;
+                } else if (b.puntos === a.puntos) {
+                    
+                    if (b.diferencia > a.diferencia) {
+                    return 1;                
+
+                    } else if (b.diferencia === a.diferencia) {
+                    
+                        if (b.golesAfavor > a.golesAfavor) {
+                            
+                            return 1;    
+
+                        } else {
+
+                            return -1;    
+
+                        }            
+
+                    } else {
+                    return -1;
+                    }
+                
+                } else {
+                    return -1;
+                }            
+                
+            }) 
+
+
 
             let subtabla = {
                 nombre: element.nombre,

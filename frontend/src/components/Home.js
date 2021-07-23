@@ -19,6 +19,8 @@ import TablaGeneral from './TablaGeneral'
 import TablaPorGrupo from './TablaPorGrupo'
 import Goleo from './Goleo'
 import VerJornadas from './VerJornadas'
+import VerRol from './VerRol'
+import VerPendientes from './VerPendientes'
 
 
 
@@ -234,40 +236,55 @@ const Home = () => {
                         <h5>{ nombreTorneo }</h5>
             
                         
+                        <div className="btn-group mr-2" role="group" aria-label="First group">                        
 
-                        <button  onClick={() => { setTyp('tabla_general') }} className="btn btn-outline-primary" >
-                            Tabla General
-                        </button>            
-                        <button  onClick={() => { setTyp('tabla_por_grupos') }} className="btn btn-outline-primary" >
-                            Tabla por Grupos
-                        </button>            
-                        <button  onClick={() => { setTyp('goleo') }} className="btn btn-outline-primary" >
-                            Goleo
-                        </button>            
+                            <button  onClick={() => { setTyp('tabla_general') }} className="btn btn-outline-primary" >
+                                Tabla General
+                            </button>            
+                            <button  onClick={() => { setTyp('tabla_por_grupos') }} className="btn btn-outline-primary" >
+                                Tabla por Grupos
+                            </button>            
+                            <button  onClick={() => { setTyp('goleo') }} className="btn btn-outline-primary" >
+                                Goleo
+                            </button>            
+                        </div>
+                        
+                        <div className="btn-group mr-2" role="group" aria-label="First group">
 
-                        <button  onClick={() => { setTyp('ver_jornadas') }} className="btn btn-outline-primary" >
-                            Jornadas
-                        </button>            
+                            <button  onClick={() => { setTyp('ver_jornadas') }} className="btn btn-outline-primary" >
+                                Jornadas
+                            </button>      
 
-                        <button  className="btn btn-outline-default" >
-                             
-                        </button>   
-                        <button  onClick={() => {setTorneo(''); setNombreTorneo('')}} className="btn btn-outline-success" >
-                            regresar
-                        </button>            
+                            <button  onClick={() => { setTyp('ver_rol') }} className="btn btn-outline-warning" >
+                                Ver Rol
+                            </button>                  
 
+
+                            <button  onClick={() => { setTyp('ver_juegos_pendientes') }} className="btn btn-outline-warning" >
+                                Juegos Pendientes
+                            </button>                  
+
+                            <button  className="btn btn-outline-default" >
+                                
+                            </button>   
+                            <button  onClick={() => {setTorneo(''); setNombreTorneo('')}} className="btn btn-outline-primary" >
+                                regresar
+                            </button>            
+                        </div>
 
                         {(() => {
 
                             switch(typ) {
-
+                                
+                                case "ver_rol":             return <VerRol idTorneo={torneo} />;
                                 case "tabla_general":       return <TablaGeneral idTorneo={torneo} />;
                                 case "tabla_por_grupos":    return <TablaPorGrupo idTorneo={torneo} />;
                                 case "goleo":               return <Goleo idTorneo={torneo} />;
                                 case "ver_jornadas":        return <VerJornadas idTorneo={torneo} />;
+                                case "ver_juegos_pendientes":return <VerPendientes idTorneo={torneo} />;
                                 
 
-                                default:      return <h1>No tournament selected</h1>
+                                default:      return <h1>No ha seleccionado el torneo</h1>
                             }
 
 
