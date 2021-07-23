@@ -69,6 +69,7 @@ body .x-container .x-card:nth-child(even) .x-box .x-content a {
 
 
 
+
 body .x-container .x-card .x-box {
   position: absolute;
   top: 20px;
@@ -157,4 +158,127 @@ body .x-container .x-card .x-box .x-content a:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
   background: #fff;
   color: #000;
+}
+
+
+
+
+
+/*========================================================================*/
+/*========================================================================*/
+
+
+.signin-sec {
+  
+  padding-top: 10px;
+  padding-bottom: 60px;
+  background: url(../img/head3.jpg) no-repeat center center;
+  padding: 0;
+  -webkit-background-size: cover;
+  background-size: cover;
+  color:#fff;
+  background-attachment:fixed;
+}
+
+.signin-sec .overlay{
+  background:rgba(11, 1, 44, 0.75);  
+  min-height: 500px;
+}
+
+.signin-sec h3 {
+  color:#fff;
+  padding: 3rem 0;  
+}
+
+.signin-sec h4 {
+  color:#fff;
+  padding: 1rem 0;  
+}
+
+/*========================================================================*/
+
+
+
+.header-sec {
+  
+  padding-top: 10px;
+  padding-bottom: 60px;
+  background: url(../img/head.jpg) no-repeat center center;
+  padding: 0;
+  -webkit-background-size: cover;
+  background-size: cover;
+  color:#fff;
+  background-attachment:fixed;
+}
+
+.header-sec .overlay{
+  background:rgba(11, 1, 44, 0.75);  
+  min-height: 500px;
+}
+
+.header-sec h2 {
+    color:#fff;
+    padding: 5rem 0;
+    
+}
+
+.features h3{
+  padding: 3rem 0;
+}
+
+
+  /*========================================================================*/
+.sayings {
+
+  padding-top: 10px;
+  padding: 3rem 0;
+  background: url(../img/head2.jpg) no-repeat center center;
+  padding: 0;
+  -webkit-background-size: cover;
+  background-size: cover;
+  color:#fff;
+  background-attachment:fixed;
+}
+
+/*background:rgba(8, 134, 74, 0.70);*/
+.sayings .overlay{
+  background:rgba(11, 1, 44, 0.75);  
+  min-height: 300px;
+}
+
+.sayings h3 {
+      color:#fff;
+      padding-top:60px;
+      padding-bottom:30px;
+  }
+
+.sayings h4 {
+  padding: 5rem 0;
+  line-height:35px;
+}
+
+.btnEntrar{
+  margin: 2rem 0;
+  border-radius: 13px;
+  width: 10rem;
+} 
+
+
+/*===================================== ===================================*/
+.contact {
+  font-size:20px;
+  line-height:35px;  
+}
+
+.contact h3{
+  padding: 2rem 0;
+} 
+/*=====================================  ===================================*/
+
+.myfooter {
+  background:rgba(11, 1, 44, 1);  
+  padding:5px 40px 5px 40px;
+  color:#fff;
+  font-size:14px;
+  text-align:right;
 }

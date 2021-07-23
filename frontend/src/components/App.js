@@ -16,6 +16,7 @@ import PrivateRoute from './common/PrivateRoute'
 
 import Home from './Home'
 import LandingPage from './LandingPage'
+import Whatsthis from './Whatsthis'
 import Torneo from './Torneo'
 import Equipo from './Equipo'
 import Juego from './Juegos'
@@ -33,6 +34,7 @@ const App = () => {
                     <div className="contenido">
                         <Switch>
                             <Route exact path="/" component = {Home} />
+                            <Route exact path="/whatsthis" component = {Whatsthis} />
                             <Route exact path="/Landing" component = {LandingPage} />
                             <Route exact path="/register" component = {Register} />
                             <Route exact path="/login" component = {Login} />

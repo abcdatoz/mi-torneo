@@ -117,7 +117,7 @@ const Home = () => {
     const listatorneos = (
         <>        
     
-        {} {datosRegion.city} {datosRegion.region}
+        
         <table className="table table-striped">
             <thead>
                 <th width="10%"></th>

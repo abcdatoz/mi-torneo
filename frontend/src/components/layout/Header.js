@@ -66,11 +66,13 @@ const Header = () => {
 
 
     
-    const guestLinks = (
+    const guestLinks = (        
         <ul className="navbar-nav ml-auto mt-6 mt-lg-0">
+
             <li className="nav-item">
-                <a className="dropdown-item" href="/#/login">Entrar</a>
-            </li>            
+                <a className="dropdown-item" href="/#/whatsthis">¿Que es esto?</a>
+            </li>     
+            
         </ul>                        
     );
 
