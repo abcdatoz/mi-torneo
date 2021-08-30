@@ -1,8 +1,8 @@
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 
-from backend.models import Estado, Torneo, Grupo, Equipo, Jugador, Premio
-from backend.serializers import EstadoSerializer, TorneoSerializer, GrupoSerializer, EquipoSerializer, JugadorSerializer, PremioSerializer
+from backend.models import Estado, Torneo, Grupo, Equipo, EquipoFoto, EquipoEscudo, Jugador, Premio
+from backend.serializers import EstadoSerializer, TorneoSerializer, GrupoSerializer, EquipoSerializer, EquipoFotoSerializer, EquipoEscudoSerializer, JugadorSerializer, PremioSerializer
 
 
 from backend.models import Jornada, Juego, Gol, Visita
@@ -329,3 +329,96 @@ class VisitaViewSet(viewsets.ModelViewSet):
     queryset = Visita.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = VisitaSerializer
+
+
+
+
+
+
+
+
+class EquipoFotoViewSet(viewsets.ModelViewSet):
+    queryset = EquipoFoto.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = EquipoFotoSerializer
+
+    def create (self, request, *args, **kargs):
+        data = request.data
+        
+        equipo = Equipo.objects.get(id=data['equipo'])
+
+        registro = EquipoFoto.objects.create(
+            equipo = equipo,            
+            imagen = data['imagen']
+        )
+
+        registro.save()
+        serializer = EquipoFotoSerializer(registro)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kargs):        
+        data = request.data
+
+        equipo = Equipo.objects.get(id=data['equipo'])
+
+        instance = self.get_object()
+        instance.imagen.delete()
+        
+        instance.equipo = equipo        
+        instance.imagen = data['imagen']
+
+        instance.save()
+        serializer =  EquipoFotoSerializer(instance)
+        return Response(serializer.data)
+         
+    
+    def destroy(self, request, *args, **kargs):
+        instance = self.get_object()
+        instance.imagen.delete()
+        self.perform_destroy(instance)
+
+        serializer = EquipoFotoSerializer(instance)        
+        return Response(serializer.data)
+
+class EquipoEscudoViewSet(viewsets.ModelViewSet):
+    queryset = EquipoEscudo.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = EquipoEscudoSerializer
+
+    def create (self, request, *args, **kargs):
+        data = request.data
+        
+        equipo = Equipo.objects.get(id=data['equipo'])
+
+        registro = EquipoEscudo.objects.create(
+            equipo = equipo,            
+            imagen = data['imagen']
+        )
+
+        registro.save()
+        serializer = EquipoEscudoSerializer(registro)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kargs):        
+        data = request.data
+
+        equipo = Equipo.objects.get(id=data['equipo'])
+
+        instance = self.get_object()
+        instance.imagen.delete()
+        
+        instance.equipo = equipo        
+        instance.imagen = data['imagen']
+
+        instance.save()
+        serializer =  EquipoEscudoSerializer(instance)
+        return Response(serializer.data)
+         
+    
+    def destroy(self, request, *args, **kargs):
+        instance = self.get_object()
+        instance.imagen.delete()
+        self.perform_destroy(instance)
+
+        serializer = EquipoEscudoSerializer(instance)        
+        return Response(serializer.data)

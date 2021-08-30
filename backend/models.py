@@ -63,6 +63,16 @@ class Equipo(models.Model):
     class Meta:
         ordering = ['nombre']
 
+class EquipoFoto(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    equipo = models.ForeignKey(Equipo, on_delete=models.SET_NULL, null=True)
+    imagen = models.ImageField(upload_to='equipos')
+
+class EquipoEscudo(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    equipo = models.ForeignKey(Equipo, on_delete=models.SET_NULL, null=True)
+    imagen = models.ImageField(upload_to='escudos')
+
 
 class Jugador(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

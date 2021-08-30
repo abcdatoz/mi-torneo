@@ -1,5 +1,7 @@
+from django.db.models import fields
 from rest_framework import serializers
-from backend.models import Estado, Torneo, Grupo, Equipo, Jugador, Jornada, Juego,Gol, Premio, Visita
+from backend.models import Estado, Torneo, Grupo, Equipo, Jugador, Jornada, Juego,Gol, Premio, Visita, EquipoFoto, EquipoEscudo
+
 
 class EstadoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,6 +22,16 @@ class EquipoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Equipo
         fields = '__all__'
+
+class EquipoFotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EquipoFoto
+        fields = '__all__'
+
+class EquipoEscudoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EquipoEscudo
+        fields = '__all__'        
 
 class JugadorSerializer(serializers.ModelSerializer):
     class Meta:
