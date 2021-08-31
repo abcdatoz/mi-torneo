@@ -10,7 +10,7 @@ const TablaGeneral = (props) => {
     //selectors    
     const juegos = useSelector(state => state.juegos.lista)
     const equipos = useSelector(state => state.equipos.lista)
-    
+    const equiposEscudo = useSelector(state => state.equiposEscudo.lista)
     
     const crearTablaGeneral = (idTorneo) =>{
 
@@ -135,12 +135,34 @@ const TablaGeneral = (props) => {
     },[])
 
 
+    const setDatos = (id) => {
+        props.setTeam(id)
+        props.setTipo('team')
+    } 
+
+    const showShield = (id) => {
+        let arr = equiposEscudo.filter(x => x.equipo == id)
+
+        if (arr.length > 0 ){
+            return (
+                
+                    <img src={arr[0].imagen} onClick={() =>  setDatos(id)} width="50px" height="50px" />
+
+            )
+
+        }else{
+            return (
+            <span className="fa fa-bar-chart" aria-hidden="true" onClick={() =>  setDatos(id)} > </span>            
+            )
+        }
+    }
 
 
     return (
         <table className="table table-striped">
                 <thead>
                 <th width="5%">#</th>
+                <th width="5%"> </th>
                 <th width="25%">Equipo</th>
                 <th width="5%">JJ</th>
                 <th width="5%">JG</th>
@@ -162,6 +184,7 @@ const TablaGeneral = (props) => {
                     .map((item,ndx) => (
                         <tr key={item.id}  >
                             <td>{ndx + 1}</td>
+                            <td>{ showShield(item.id) }</td>
                             <td> {item.nombre} </td>
                             <td>{item.jj} </td>
                             <td>{item.jg} </td>

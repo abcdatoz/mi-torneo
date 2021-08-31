@@ -5,6 +5,8 @@ import {getTorneos} from '../actions/TorneoActions'
 
 import { getGrupos } from '../actions/GrupoActions'
 import { getEquipos } from '../actions/EquipoActions'
+import { getEquipoEscudo } from '../actions/EquipoEscudoActions'
+import { getEquipoFoto } from '../actions/EquipoFotoActions'
 import { getJugadores } from '../actions/JugadorActions'
 
 import { getJornadas } from '../actions/JornadaActions'
@@ -21,6 +23,7 @@ import Goleo from './Goleo'
 import VerJornadas from './VerJornadas'
 import VerRol from './VerRol'
 import VerPendientes from './VerPendientes'
+import Team from './Team'
 
 
 
@@ -31,6 +34,8 @@ const Home = () => {
     const [nombreTorneo, setNombreTorneo] = useState('')
     const [torneo, setTorneo] = useState('')
     const [typ, setTyp] = useState('')
+
+    const [idTeam, setIdTeam] = useState('')
     
 
     const [filtroNombre, setFiltroNombre] = useState('')
@@ -44,6 +49,8 @@ const Home = () => {
 
     const grupos = useSelector(state => state.grupos.lista)
     const equipos = useSelector(state => state.equipos.lista)
+    const equiposEscudo = useSelector(state => state.equipos.lista)
+    const equiposFoto = useSelector(state => state.equipos.lista)
 
     const jornadas = useSelector(state => state.jornadas.lista)
     const juegos = useSelector(state => state.juegos.lista)
@@ -74,7 +81,10 @@ const Home = () => {
         dispatch(getGoles())        
 
         dispatch(getRegion())        
-        dispatch(getVisitas())       
+        dispatch(getVisitas())      
+        
+        dispatch(getEquipoFoto())
+        dispatch(getEquipoEscudo())
        
     },[])
 
@@ -236,7 +246,7 @@ const Home = () => {
                         <h5>{ nombreTorneo }</h5>
             
                         
-                        <div className="btn-group mr-2" role="group" aria-label="First group">                        
+                        <div className="team-container">                        
 
                             <button  onClick={() => { setTyp('tabla_general') }} className="btn btn-outline-primary" >
                                 Tabla General
@@ -246,10 +256,7 @@ const Home = () => {
                             </button>            
                             <button  onClick={() => { setTyp('goleo') }} className="btn btn-outline-primary" >
                                 Goleo
-                            </button>            
-                        </div>
-                        
-                        <div className="btn-group mr-2" role="group" aria-label="First group">
+                            </button> 
 
                             <button  onClick={() => { setTyp('ver_jornadas') }} className="btn btn-outline-primary" >
                                 Jornadas
@@ -269,19 +276,23 @@ const Home = () => {
                             </button>   
                             <button  onClick={() => {setTorneo(''); setNombreTorneo('')}} className="btn btn-outline-primary" >
                                 regresar
-                            </button>            
+                            </button>   
+
                         </div>
+                        
+                
 
                         {(() => {
 
                             switch(typ) {
                                 
                                 case "ver_rol":             return <VerRol idTorneo={torneo} />;
-                                case "tabla_general":       return <TablaGeneral idTorneo={torneo} />;
-                                case "tabla_por_grupos":    return <TablaPorGrupo idTorneo={torneo} />;
+                                case "tabla_general":       return <TablaGeneral idTorneo={torneo} setTipo={setTyp} setTeam={setIdTeam} />;
+                                case "tabla_por_grupos":    return <TablaPorGrupo idTorneo={torneo} setTipo={setTyp} setTeam={setIdTeam} />;
                                 case "goleo":               return <Goleo idTorneo={torneo} />;
                                 case "ver_jornadas":        return <VerJornadas idTorneo={torneo} />;
                                 case "ver_juegos_pendientes":return <VerPendientes idTorneo={torneo} />;
+                                case "team":                return <Team idTorneo={torneo} idTeam={idTeam} />;
                                 
 
                                 default:      return <h1>No ha seleccionado el torneo</h1>

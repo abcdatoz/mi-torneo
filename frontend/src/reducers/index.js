@@ -14,6 +14,9 @@ import jornadas from './JornadaReducer'
 import juegos from './JuegoReducer'
 import goles from './GolReducer'
 
+import equiposFoto from './EquipoFotoReducer'
+import equiposEscudo from './EquipoEscudoReducer'
+
 export default combineReducers({
     auth, 
     datosRegion,
@@ -22,6 +25,8 @@ export default combineReducers({
     torneos,
     grupos,
     equipos,
+    equiposFoto,
+    equiposEscudo,
     jugadores,
     jornadas,
     juegos,

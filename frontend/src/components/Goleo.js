@@ -11,7 +11,7 @@ const Goleo = (props) => {
     const equipos = useSelector(state => state.equipos.lista)
     const jugadores = useSelector(state => state.jugadores.lista)
     const goles = useSelector(state => state.goles.lista)
-
+    const equiposEscudo = useSelector(state => state.equiposEscudo.lista)
 
     useEffect( () => {        
         generarGoleo()
@@ -36,7 +36,8 @@ const Goleo = (props) => {
             let obj = {
                 equipo: equipos.filter(x=>x.id == goleador.equipo)[0].nombre,
                 jugador: goleador.nombre,
-                ngoles
+                ngoles,
+                id:  goleador.equipo
             }
 
             arr.push(obj)
@@ -65,12 +66,24 @@ const Goleo = (props) => {
     }
 
 
+    const showShield = (id) => {
+        let arr = equiposEscudo.filter(x => x.equipo == id)
 
+        if (arr.length > 0 ){
+            return (
+                <img src={arr[0].imagen}  alt="imagen" width="50px" height="50px"/>
+            )
+
+        }else{
+            return null
+        }
+    }
 
     return (
         <table className="table table-striped">
                 <thead>
                 <th width="5%">#</th>
+                <th width="5%"></th>
                 <th width="25%">Equipo</th>
                 <th width="25%">Jugador</th>
                 <th width="25%">Goles</th>                           
@@ -83,6 +96,7 @@ const Goleo = (props) => {
                     .map((item,ndx) => (
                         <tr key={ndx}  >
                             <td>{ndx + 1}</td>
+                            <td>{ showShield(item.id) }</td>
                             <td>{item.equipo}</td>
                             <td>{item.jugador} </td>
                             <td>{item.ngoles} </td>                            

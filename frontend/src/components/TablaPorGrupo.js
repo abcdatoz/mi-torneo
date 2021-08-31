@@ -11,6 +11,7 @@ const TablaPorGrupo = (props) => {
     const grupos = useSelector(state => state.grupos.lista)
     const equipos = useSelector(state => state.equipos.lista)
     const juegos = useSelector(state => state.juegos.lista)
+    const equiposEscudo = useSelector(state => state.equiposEscudo.lista)
     
     
     
@@ -157,6 +158,30 @@ const TablaPorGrupo = (props) => {
         crearTablaGeneral()
     },[])
         
+
+    const setDatos = (id) => {
+        props.setTeam(id)
+        props.setTipo('team')
+    } 
+
+    const showShield = (id) => {
+        let arr = equiposEscudo.filter(x => x.equipo == id)
+
+        if (arr.length > 0 ){
+            return (
+                
+                    <img src={arr[0].imagen} onClick={() =>  setDatos(id)} width="50px" height="50px" />
+
+            )
+
+        }else{
+            return (
+            <span className="fa fa-bar-chart" aria-hidden="true" onClick={() =>  setDatos(id)} > </span>            
+            )
+        }
+    }
+
+
     return (
         <>
 
@@ -168,6 +193,7 @@ const TablaPorGrupo = (props) => {
                 <thead>
                 <th width="10%">{item.nombre}</th>
                 <th width="5%">#</th>
+                <th width="5%"></th>
                 <th width="25%">Equipo</th>
                 <th width="5%">JJ</th>
                 <th width="5%">JG</th>
@@ -190,6 +216,7 @@ const TablaPorGrupo = (props) => {
                         <tr key={subitem.id}  >
                             <td> </td>
                             <td>{indx + 1}</td>
+                            <td>{ showShield(subitem.id) }</td>
                             <td> {subitem.nombre}</td>
                             <td>{subitem.jj} </td>
                             <td>{subitem.jg} </td>

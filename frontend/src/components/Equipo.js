@@ -4,7 +4,8 @@ import {getTorneos} from '../actions/TorneoActions'
 import {getGrupos} from '../actions/GrupoActions'
 import {getEquipos, addEquipo, editEquipo, deleteEquipo} from '../actions/EquipoActions'
 import {getJugadores, addJugador,editJugador,deleteJugador} from '../actions/JugadorActions'
-
+import { getEquipoEscudo, addEquipoEscudo, deleteEquipoEscudo} from '../actions/EquipoEscudoActions'
+import { getEquipoFoto, addEquipoFoto,deleteEquipoFoto} from '../actions/EquipoFotoActions'
 import {getJuegos} from '../actions/JuegosActions'
 
 
@@ -37,6 +38,10 @@ const Equipo = () => {
     const [jugadorId, setJugadorId] = useState('')
 
 
+    const [idEquipoImage, setIdEquipoImage] = useState('')
+    const [tipoImagen, setTipoImagen] = useState('')
+    const [imagen, setImagen] = useState('')
+
     //useSelectors
     const auth = useSelector(state => state.auth)    
     const torneos = useSelector(state => state.torneos.lista)
@@ -44,6 +49,9 @@ const Equipo = () => {
     const equipos = useSelector(state => state.equipos.lista)
     const jugadores = useSelector(state => state.jugadores.lista)
     const juegos = useSelector(state => state.juegos.lista)
+
+    const equiposFoto = useSelector(state => state.equiposFoto.lista)
+    const equiposEscudo = useSelector(state => state.equiposEscudo.lista)
 
     //useDispatch
     const dispatch = useDispatch()
@@ -55,7 +63,9 @@ const Equipo = () => {
         dispatch(getGrupos())
         dispatch(getEquipos())
         dispatch(getJugadores())                
-        dispatch(getJuegos())                
+        dispatch(getJuegos())       
+        dispatch(getEquipoEscudo())         
+        dispatch(getEquipoFoto())
     },[])
 
     const agregar = () => {
@@ -124,7 +134,55 @@ const Equipo = () => {
     }
 
 
+    const editarImagen = (id, tipo) =>{
+        setIdEquipoImage(id)
+        setTipoImagen(tipo)
+        $('#MyModalImage').modal('show')
+    }
 
+    const guardarImagen = (e) => {
+
+        e.preventDefault()
+
+        if (!imagen){            
+            alert('No ha seleccionado la imagen')
+            return
+        }
+
+
+        let formdata = new FormData()
+
+        
+        formdata.append('equipo', idEquipoImage)
+        formdata.append('imagen', imagen, imagen.name)
+
+        if (tipoImagen == 'escudo'){
+
+            let arrEscudos = equiposEscudo.filter(x=>x.equipo == idEquipoImage)
+            
+            arrEscudos.forEach(element => {
+                dispatch(deleteEquipoEscudo(element.id))    
+            });
+
+            dispatch(addEquipoEscudo(formdata))       
+        }                       
+
+            
+        
+        if(tipoImagen == 'foto'){
+
+            let arrFotos = equiposFoto.filter(x=>x.equipo == idEquipoImage)
+            
+            arrFotos.forEach(element => {
+                dispatch(deleteEquipoFoto(element.id))    
+            });
+
+            dispatch(addEquipoFoto(formdata))       
+        }
+        
+        $('#MyModalImage').modal('hide')
+
+    }
 
     const guardar = (e) => {
         e.preventDefault()
@@ -200,7 +258,31 @@ const Equipo = () => {
     }
 
 
+    const showPhoto = (id) => {
+        let arr = equiposFoto.filter(x => x.equipo == id)
 
+        if (arr.length > 0 ){
+            return (
+                <img src={arr[0].imagen}  alt="imagen" width="50px" height="50px"/>
+            )
+
+        }else{
+            return null
+        }
+    }
+
+    const showShield = (id) => {
+        let arr = equiposEscudo.filter(x => x.equipo == id)
+
+        if (arr.length > 0 ){
+            return (
+                <img src={arr[0].imagen}  alt="imagen" width="50px" height="50px"/>
+            )
+
+        }else{
+            return null
+        }
+    }
 
 
     const listatorneos = (<>
@@ -370,6 +452,47 @@ const Equipo = () => {
         </div>
 
 
+        <div className="modal fade" id="MyModalImage" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered" role="document">
+        
+                <div className="modal-content">
+                    <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLongTitle">Agregar {tipoImagen}</h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div className="modal-body">
+                    
+                        <form>                          
+
+                            <div className="form-group">
+                                <label>*Imagen</label>
+                                <input 
+                                    className="form-control"
+                                    type="file"
+                                    name="imagen"
+                                    accept="image/png, image/jpeg"
+                                    onChange = { e => setImagen(e.target.files[0])}
+                                    required
+                                />
+                            </div>
+                            
+                        </form>
+        
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-primary" onClick={guardarImagen}>Guardar</button>
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+
         <table className="table table-striped">
             
             <tbody>
@@ -396,6 +519,8 @@ const Equipo = () => {
                             <table>
                             <thead>
                                 <th>#</th>
+                                <th>Escudo</th>
+                                <th>Foto</th>
                                 <th>Nombre</th>
                                 <th>Status</th>
                                 <th>Representante</th>
@@ -409,6 +534,8 @@ const Equipo = () => {
                                 .map((equipo, indx)=>(
                                     <tr key={equipo.id}>
                                         <td> {indx + 1} </td>
+                                        <td>{ showShield(equipo.id) }</td>
+                                        <td>{ showPhoto(equipo.id) }</td>
                                         <td>{equipo.nombre}</td>
                                         <td>{equipo.status}</td>
                                         <td>{equipo.nombre_contacto}</td>
@@ -417,6 +544,14 @@ const Equipo = () => {
 
                                             <button  onClick={() => {setIdEquipo(equipo.id); setNombreEquipo(equipo.nombre)}} className="btn btn-outline-success" >
                                                 jugadores
+                                            </button>   
+
+                                            <button  onClick={() => editarImagen(equipo.id,'foto') } className="btn btn-outline-success" >
+                                                foto
+                                            </button>   
+
+                                            <button  onClick={() => editarImagen(equipo.id,'escudo') } className="btn btn-outline-success" >
+                                                escudo
                                             </button>   
 
                                             <button  onClick={() => editar(equipo)} className="btn btn-default btn-sm" >

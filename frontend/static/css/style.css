@@ -32,8 +32,28 @@ body, html{
   margin-top: 3rem;
 }
 
+.mediatabla{
+  width: 90%;
+  margin: auto;
+  font-size: .7rem;
+}
 
+.mediatabla td{  
+  padding: 0;  
+}
 
+.team-container {
+  display: flex;
+  flex-wrap:  wrap;
+  flex-direction: row;  
+  justify-content: space-around;
+  align-items: center;
+}
+
+.btn-outline-primary, .btn-outline-warning{
+   border-radius: 10px;
+   margin: .5rem;
+ }
 
 
 body .x-container {
