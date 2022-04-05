@@ -78,14 +78,17 @@ const VerJornadas = (props) => {
 
         let match = juegos.filter(x => x.id == id)
 
-        let arr = goles.filter(x => x.juego == id && x.equipo == match[0].equipoA && x.goles > 0 )
+        let arr = goles.filter(x => x.juego == id && x.equipo == match[0].equipoA  ) //&& x.goles > 0
         let arr2 =[]
         arr.forEach(element => {
             let player = jugadores.filter(x => x.id == element.jugador)             
             let obj = {
                 id: element.jugador,
                 nombre: player[0].nombre,
-                goles: element.goles
+                goles:  element.goles > 0 ? ' ' + element.goles + ' ' : ' ',
+                yellowCard: element.tarjetas_amarillas,
+                redCard: element.tarjeta_roja
+
             }
             arr2.push(obj)
         });
@@ -97,13 +100,15 @@ const VerJornadas = (props) => {
 
         arr = []
         arr2 = []
-        arr = goles.filter(x => x.juego == id && x.equipo == match[0].equipoB && x.goles > 0 )
+        arr = goles.filter(x => x.juego == id && x.equipo == match[0].equipoB  ) //&& x.goles > 0
         arr.forEach(element => {
             let player = jugadores.filter(x => x.id == element.jugador)             
             let obj = {
                 id: element.jugador,
                 nombre: player[0].nombre,
-                goles: element.goles
+                goles:  element.goles > 0 ? ' ' + element.goles + ' ' : ' ',
+                yellowCard: element.tarjetas_amarillas,
+                redCard: element.tarjeta_roja
             }
             arr2.push(obj)
         });
@@ -206,8 +211,24 @@ const VerJornadas = (props) => {
                             .map((item) => (
                                 <tr key={item.id}  >                                    
                                     <td></td>
-                                    <td>{item.nombre}</td>
-                                    <td>{item.goles} </td>                            
+                                    <td>
+
+                                        {
+                                            item.yellowCard
+                                            ? (<span className="yellowCard"> * </span>)
+                                            : null
+                                        }
+                                        
+                                        {
+                                            item.redCard
+                                            ? (<span className="redCard"> * </span>)
+                                            : null
+                                        }
+                                        
+                                        {item.nombre}   
+                                        
+                                    </td>
+                                    <td>{item.goles} </td>                                    
                                 </tr>
                             ))                            
                         }
@@ -231,8 +252,22 @@ const VerJornadas = (props) => {
                             .map((item) => (
                                 <tr key={item.id}  >                                    
                                     <td></td>
-                                    <td>{item.nombre}</td>
-                                    <td>{item.goles} </td>                            
+                                    <td>
+                                    {
+                                            item.yellowCard
+                                            ? (<span className="yellowCard"> * </span>)
+                                            : null
+                                        }
+                                        
+                                        {
+                                            item.redCard
+                                            ? (<span className="redCard"> * </span>)
+                                            : null
+                                        }
+                                        
+                                        {item.nombre}   
+                                    </td>
+                                    <td>{item.goles} </td>  
                                 </tr>
                             ))                            
                         }

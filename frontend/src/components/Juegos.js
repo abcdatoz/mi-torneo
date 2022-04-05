@@ -288,10 +288,10 @@ const Juego = () => {
                 return
             }
 
-            if (golA == 0 && amarillaA == 0 && rojaA == 0 ) {
-                alert('al menos debe de registrar goles o tarjetas')
-                return
-            }
+            //if (golA == 0 && amarillaA == 0 && rojaA == 0 ) {
+            //    alert('al menos debe de registrar goles o tarjetas')
+            //    return
+            //}
 
             if (goles.filter(x => x.juego == idJuego && x.equipo == idTeamA && x.jugador == jugadorA).length > 0){
                 alert('Ese jugador ya fue registrado anteriormente en este partido')
@@ -322,10 +322,10 @@ const Juego = () => {
                 return
             }
 
-            if (golB == 0 && amarillaB == 0 && rojaB == 0 ) {
-                alert('al menos debe de registrar goles o tarjetas')
-                return
-            }
+//            if (golB == 0 && amarillaB == 0 && rojaB == 0 ) {
+//                alert('al menos debe de registrar goles o tarjetas')
+//                return
+//            }
 
             if (goles.filter(x => x.juego == idJuego && x.equipo == idTeamA && x.jugador == jugadorB).length > 0){
                 alert('Ese jugador ya fue registrado anteriormente en este partido')
@@ -368,6 +368,11 @@ const Juego = () => {
     }
 
 
+    const reabrirJuego = () => {        
+        $('#MyConfirmationOpenJuego').modal('show')
+    }
+
+
     const cerrarJuego = () => {        
 
         let xGolesA = 0
@@ -398,9 +403,27 @@ const Juego = () => {
         setStatusJuego('Finalizado')
         $('#MyConfirmationCloseJuego').modal('hide')
 
-        
-        
+    }
 
+    const abrirJuego = () => {        
+
+        let xGolesA = 0
+        let xGolesB = 0
+        
+         
+
+            
+        let data = {        
+            golesA: xGolesA,
+            golesB: xGolesB,
+            status: 'Abierto'   
+        }
+
+        
+        dispatch( editJuego(data,idJuego))   
+        
+        setStatusJuego('Abierto')
+        $('#MyConfirmationOpenJuego').modal('hide')
 
     }
 
@@ -888,7 +911,13 @@ const Juego = () => {
 
             {
                     statusJuego == 'Finalizado'
-                        ? null
+                        ? (<>
+                                <button  onClick={() => reabrirJuego()} className="btn btn-outline-success" >
+                                    RE-ABRIR Partido
+                                </button>                                                                        
+
+                            </>
+                        )
                         : (
                             <>
                                 <button  onClick={() => eliminarJuego()} className="btn btn-outline-danger" >
@@ -1227,6 +1256,27 @@ const Juego = () => {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-success" onClick={ () => { cerrarJuego() }}>Si, Finalizarlo...</button>
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Salir</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div className="modal fade" id="MyConfirmationOpenJuego" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">            
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel">Mi Torneo</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        ¿Deseas reabrir el juego para editarlo?
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-success" onClick={ () => { abrirJuego() }}>Si, abrelo...</button>
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Salir</button>
                     </div>
                     </div>

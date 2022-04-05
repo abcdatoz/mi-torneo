@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux'
 const TablaGeneral = (props) => {
 
     const [tablaGen, setTablaGen] = useState([])
+    const [totalAltas, setTotalAltas] = useState(0)
 
     //selectors    
     const juegos = useSelector(state => state.juegos.lista)
@@ -68,9 +69,11 @@ const TablaGeneral = (props) => {
             });
 
             let estatus = ''
+            let status = 1
 
             if (team.status == 'baja'){
                 estatus = ' <<BAJA>>'
+                status = 0
             }
 
             let obj = {
@@ -83,7 +86,8 @@ const TablaGeneral = (props) => {
                 jj,
                 jg,
                 jp,
-                je
+                je,
+                status,
             }
 
             arr.push(obj)
@@ -95,7 +99,8 @@ const TablaGeneral = (props) => {
         //arr.sort((a,b) => b.puntos - a.puntos) 
 
         arr.sort((a,b) => {
-            
+             
+
             if (b.puntos > a.puntos) {
                 return 1;
             } else if (b.puntos === a.puntos) {
@@ -126,6 +131,7 @@ const TablaGeneral = (props) => {
 
 
         setTablaGen(arr)
+        setTotalAltas(arr.filter(x => x.status == 1).length)
 
     }
     
@@ -181,9 +187,33 @@ const TablaGeneral = (props) => {
                 <tbody>
                 {
                     tablaGen
+                    .filter (x=>x.status == 1)
                     .map((item,ndx) => (
                         <tr key={item.id}  >
                             <td>{ndx + 1}</td>
+                            <td>{ showShield(item.id) }</td>
+                            <td> {item.nombre} </td>
+                            <td>{item.jj} </td>
+                            <td>{item.jg} </td>
+                            <td>{item.jp} </td>
+                            <td>{item.je} </td>
+                            <td> </td>
+                            <td>{item.puntos} </td>                                                                                
+                            <td> </td>
+                            <td>{item.golesAfavor} </td>
+                            <td>{item.golesEnContra} </td>
+                            <td>{item.diferencia} </td>
+                            
+                        </tr>
+                    ))
+                }
+
+                {
+                    tablaGen
+                    .filter (x=>x.status == 0)
+                    .map((item,ndx) => (
+                        <tr key={item.id}  >
+                            <td>{ totalAltas + ndx + 1}</td>
                             <td>{ showShield(item.id) }</td>
                             <td> {item.nombre} </td>
                             <td>{item.jj} </td>

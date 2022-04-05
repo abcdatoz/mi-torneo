@@ -283,6 +283,18 @@ body .x-container .x-card .x-box .x-content a:hover {
   width: 10rem;
 } 
 
+.yellowCard{
+  background: yellow;  
+  color: yellow;
+  margin: 2px;
+}
+
+.redCard{
+  background: red;
+  color: red;
+  margin: 2px;
+  
+}
 
 /*===================================== ===================================*/
 .contact {

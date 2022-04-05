@@ -7,7 +7,7 @@ import {getJugadores, addJugador,editJugador,deleteJugador} from '../actions/Jug
 import { getEquipoEscudo, addEquipoEscudo, deleteEquipoEscudo} from '../actions/EquipoEscudoActions'
 import { getEquipoFoto, addEquipoFoto,deleteEquipoFoto} from '../actions/EquipoFotoActions'
 import {getJuegos} from '../actions/JuegosActions'
-
+import { getGoles  } from '../actions/GolesActions'
 
 const Equipo = () => {
 
@@ -49,6 +49,7 @@ const Equipo = () => {
     const equipos = useSelector(state => state.equipos.lista)
     const jugadores = useSelector(state => state.jugadores.lista)
     const juegos = useSelector(state => state.juegos.lista)
+    const goles = useSelector(state => state.goles.lista)
 
     const equiposFoto = useSelector(state => state.equiposFoto.lista)
     const equiposEscudo = useSelector(state => state.equiposEscudo.lista)
@@ -66,6 +67,8 @@ const Equipo = () => {
         dispatch(getJuegos())       
         dispatch(getEquipoEscudo())         
         dispatch(getEquipoFoto())
+        dispatch(getGoles())
+       
     },[])
 
     const agregar = () => {
@@ -130,7 +133,15 @@ const Equipo = () => {
     }
   
     const eliminarJugador = (item) =>{
-        dispatch(deleteJugador(item.id))
+
+        let listagoles = goles.filter(x=> x.jugador === item.id)
+
+        if (listagoles.length > 0){
+            $('#MyConfirmationNOEliminarJugador').modal('show')
+                        
+        }else{
+            dispatch(deleteJugador(item.id))
+        }        
     }
 
 
@@ -452,6 +463,10 @@ const Equipo = () => {
         </div>
 
 
+        
+
+
+
         <div className="modal fade" id="MyModalImage" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered" role="document">
         
@@ -606,6 +621,26 @@ const Equipo = () => {
             <button  onClick={() => {setIdEquipo(''); setNombreEquipo('')}} className="btn btn-outline-success" >
                 regresar
             </button> 
+
+
+            <div className="modal fade" id="MyConfirmationNOEliminarJugador" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">            
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">Mi Torneo</h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div className="modal-body">
+                    El jugador no puede ser eliminado porque ya tiene goles registrados
+                </div>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Salr</button>
+                </div>
+                </div>
+            </div>
+        </div>
 
 
             <table className="table table-striped">

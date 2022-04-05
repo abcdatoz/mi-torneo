@@ -19,9 +19,12 @@ const Goleo = (props) => {
 
     const generarGoleo = () => {
 
+
+
+
         let arr = []
         let goleadores = jugadores.filter(x=>x.torneo == props.idTorneo)
-        
+          
 
         goleadores.forEach(goleador => {
             let ngoles = 0    
@@ -40,7 +43,10 @@ const Goleo = (props) => {
                 id:  goleador.equipo
             }
 
-            arr.push(obj)
+            if (equipos.filter(x=>x.id == goleador.equipo)[0].status == 'alta' ){
+                arr.push(obj)
+            }
+
         });
 
         arr.sort((a,b) => b.ngoles - a.ngoles) 

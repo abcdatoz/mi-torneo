@@ -77,9 +77,11 @@ const TablaPorGrupo = (props) => {
                 });
 
                 let estatus = ''
+                let status = 1
 
                 if (team.status == 'baja'){
                     estatus = ' <<BAJA>>'
+                    status = 0
                 }
     
 
@@ -93,7 +95,8 @@ const TablaPorGrupo = (props) => {
                     jj,
                     jg,
                     jp,
-                    je
+                    je,
+                    status
                 }
 
                 arr.push(obj)
@@ -212,10 +215,35 @@ const TablaPorGrupo = (props) => {
                 <tbody>
                 {
                     tablaGen[ndx].equipos
+                    .filter ( x=> x.status == 1)
                     .map((subitem,indx) => (
                         <tr key={subitem.id}  >
                             <td> </td>
                             <td>{indx + 1}</td>
+                            <td>{ showShield(subitem.id) }</td>
+                            <td> {subitem.nombre}</td>
+                            <td>{subitem.jj} </td>
+                            <td>{subitem.jg} </td>
+                            <td>{subitem.jp} </td>
+                            <td>{subitem.je} </td>
+                            <td> </td>
+                            <td>{subitem.puntos} </td>                                                                                
+                            <td> </td>
+                            <td>{subitem.golesAfavor} </td>
+                            <td>{subitem.golesEnContra} </td>
+                            <td>{subitem.diferencia} </td>
+                            
+                        </tr>
+                    ))
+                }
+
+                    {
+                    tablaGen[ndx].equipos
+                    .filter ( x=> x.status == 0)
+                    .map((subitem,indx) => (
+                        <tr key={subitem.id}  >
+                            <td> </td>
+                            <td> </td>
                             <td>{ showShield(subitem.id) }</td>
                             <td> {subitem.nombre}</td>
                             <td>{subitem.jj} </td>
